@@ -9,6 +9,7 @@ export const env = {
   APPLICATION_NAME: process.env.APPLICATION_NAME || "SOCIAL_MEDIA",
 
   MONGO_URI: process.env.MONGO_URI as string,
+  SALT: process.env.SALT || 12,
 
   EMAIL_HOST: process.env.EMAIL_HOST,
   EMAIL_PORT: Number(process.env.EMAIL_PORT) || 587,

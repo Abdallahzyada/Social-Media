@@ -8,6 +8,8 @@ import {
   globalErrorHandler,
   NotFoundException,
 } from "./Utils/response/error.response";
+import { authRouter } from "./Modules";
+import { connectDB } from "./DB/connection";
 
 const limiter: RateLimitRequestHandler = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -21,8 +23,11 @@ export const bootstrap = async (): Promise<void> => {
   const app: Express = express();
 
   app.use(express.json(), limiter);
+  await connectDB();
   app.use(helmet());
   app.use(cors(corsOptions));
+
+  app.use("/api/v1/auth", authRouter);
 
   app.get("/", (req: Request, res: Response) => {
     return res
