@@ -1,5 +1,4 @@
-import { z } from "zod";
-import type { ZodError, ZodType } from "zod";
+import type { ZodType } from "zod";
 import { Request, Response, NextFunction } from "express";
 import { BadRequestException } from "../Utils/response/error.response";
 
@@ -9,7 +8,7 @@ export const validation = (schema: SchemaType) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const validationErrors: Array<{
       key: KeyReqType;
-      issues: Array<{ message: string; path:( string | Number | symbol)[] }>;
+      issues: Array<{ message: string; path:( string | number | symbol)[] }>;
     }> = [];
     for (const key of Object.keys(schema) as KeyReqType[]) {
       const keySchema = schema[key];
@@ -31,5 +30,6 @@ export const validation = (schema: SchemaType) => {
         cause: validationErrors,
       });
     }
+    next();
   };
 };

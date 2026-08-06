@@ -3,7 +3,7 @@ import Mail from "nodemailer/lib/mailer";
 import { env } from "../../config/config.service";
 
 export const sendEmail = async (data: Mail.Options): Promise<void> => {
-  if (data.html && data.attachments?.length && data.text) {
+  if (!data.html && !data.attachments?.length && !data.text) {
     throw new Error("Missing email content!");
   }
   const transporter = createTransport({
@@ -16,7 +16,7 @@ export const sendEmail = async (data: Mail.Options): Promise<void> => {
 
   await transporter.sendMail({
     ...data,
-    from:`"AZ social app" ${env.EMAIL_HOST}`,
+    from:`"AZ social app" <${env.EMAIL_HOST}>`,
     
   })
 };

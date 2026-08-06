@@ -28,13 +28,6 @@ export const bootstrap = async (): Promise<void> => {
   app.use(cors(corsOptions));
 
   app.use("/api/v1/auth", authRouter);
-
-  app.get("/", (req: Request, res: Response) => {
-    return res
-      .status(200)
-      .json({ message: `Welcome to ${env.APPLICATION_NAME}!` });
-  });
-
   app.use((req: Request, res: Response) => {
     throw new NotFoundException("Route Not found!");
   });

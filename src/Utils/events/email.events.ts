@@ -19,3 +19,13 @@ emailEvents.on("confirmEmail", async (data: IEmail) => {
     console.error(`Failed to send email: ${error}`);
   }
 });
+
+emailEvents.on("forgetPassword", async (data) => {
+  try {
+    data.subject = "Reset you password";
+    data.html = templet(data.otp, data.username, data.subject);
+    await sendEmail(data);
+  } catch (error) {
+    console.error(`Failed to send email: ${error}`);
+  }
+});

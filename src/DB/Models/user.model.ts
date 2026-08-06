@@ -1,5 +1,6 @@
 import { HydratedDocument, model, Model, Schema, Types } from "mongoose";
 import { GenderEnum, RoleEnum } from "../../Utils/enums/user.enum";
+import { ProviderEnum } from "../../Utils/enums/provider.enum";
 export interface IUser {
   _id: Types.ObjectId;
   firstName: string;
@@ -8,6 +9,7 @@ export interface IUser {
 
   email: string;
   confirmEmailOTP?: string;
+  forgetPasswordOTP?:string;
   confirmedAt?: Date;
 
   password: string;
@@ -17,6 +19,7 @@ export interface IUser {
   address?: string;
 
   gender: GenderEnum;
+  provider:ProviderEnum;
   role: RoleEnum;
 
   createdAt: Date;
@@ -38,8 +41,14 @@ export const userSchema = new Schema<IUser>(
     confirmedAt: Date,
     password: { type: String, required: true },
     resetPasswordOTP: String,
+    forgetPasswordOTP:String,
     phone: String,
     address: String,
+    provider:{
+      type:String,
+      enum: Object.values(ProviderEnum),
+      default : ProviderEnum.SYSTEM
+    },
     role: {
       type: String,
       enum: Object.values(RoleEnum),

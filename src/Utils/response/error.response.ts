@@ -8,7 +8,7 @@ export interface IError extends Error {
 export class ApplicationExceptions extends Error {
   constructor(
     message: string,
-    public statusCode: Number = 400,
+    public statusCode: number = 400,
     options?: ErrorOptions,
   ) {
     super(message, options);
@@ -61,7 +61,7 @@ export const globalErrorHandler = (
   const statusCode = err.statusCode || 500;
   const isDev = env.MODE === "DEVELOPMENT";
 
-  if (statusCode > 500) {
+  if (statusCode >= 500) {
     console.error(err);
   }
 
