@@ -9,8 +9,10 @@ export interface IUser {
 
   email: string;
   confirmEmailOTP?: string;
+  changeCredentialsTime?: Date;
   forgetPasswordOTP?:string;
   confirmedAt?: Date;
+  freezedAt?:Date;
 
   password: string;
   resetPasswordOTP?: string;
@@ -39,9 +41,11 @@ export const userSchema = new Schema<IUser>(
     },
     confirmEmailOTP: String,
     confirmedAt: Date,
+    changeCredentialsTime:Date,
     password: { type: String, required: true },
     resetPasswordOTP: String,
     forgetPasswordOTP:String,
+    freezedAt: Date,
     phone: String,
     address: String,
     provider:{

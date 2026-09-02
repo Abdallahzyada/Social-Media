@@ -8,7 +8,7 @@ import {
   globalErrorHandler,
   NotFoundException,
 } from "./Utils/response/error.response";
-import { authRouter } from "./Modules";
+import { authRouter, postRouter } from "./Modules";
 import { connectDB } from "./DB/connection";
 
 const limiter: RateLimitRequestHandler = rateLimit({
@@ -28,6 +28,7 @@ export const bootstrap = async (): Promise<void> => {
   app.use(cors(corsOptions));
 
   app.use("/api/v1/auth", authRouter);
+  app.use("/api/v1/post", postRouter)
   app.use((req: Request, res: Response) => {
     throw new NotFoundException("Route Not found!");
   });

@@ -15,7 +15,7 @@ import {
 import { generateOTP } from "../../Utils/generateOTP";
 import { compareHash, generateHash } from "../../Utils/security/hash";
 import { emailEvents } from "../../Utils/events/email.events";
-import { createLoginCredentials } from "../../Utils/security/tocken";
+import { createLoginCredentials } from "../../Utils/security/token";
 import { ProviderEnum } from "../../Utils/enums/provider.enum";
 import { OAuth2Client } from "google-auth-library";
 import { env } from "../../config/config.service";
