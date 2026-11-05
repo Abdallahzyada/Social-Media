@@ -10,6 +10,7 @@ import {
 } from "./Utils/response/error.response";
 import { authRouter, postRouter } from "./Modules";
 import { connectDB } from "./DB/connection";
+import { userRouter } from "./Modules/Users";
 
 const limiter: RateLimitRequestHandler = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -28,7 +29,9 @@ export const bootstrap = async (): Promise<void> => {
   app.use(cors(corsOptions));
 
   app.use("/api/v1/auth", authRouter);
-  app.use("/api/v1/post", postRouter)
+  app.use("/api/v1/post", postRouter);
+  app.use("/api/v1/user", userRouter);
+
   app.use((req: Request, res: Response) => {
     throw new NotFoundException("Route Not found!");
   });

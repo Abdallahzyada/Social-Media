@@ -21,7 +21,7 @@ import { OAuth2Client } from "google-auth-library";
 import { env } from "../../config/config.service";
 
 class AuthService {
-  constructor() {}
+  constructor() { }
   signUp = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { username, email, password }: ISingUpDTO = req.body;
@@ -37,7 +37,7 @@ class AuthService {
           {
             email,
             username,
-            password: await generateHash(password),
+            password,
             confirmEmailOTP: await generateHash(otp),
           },
         ],
@@ -158,10 +158,10 @@ class AuthService {
 
       if (!isValidOTP) throw new BadRequestException("Invalid OTP");
 
-      await userModel.updateOne({email}, {
+      await userModel.updateOne({ email }, {
         password: await generateHash(newPassword),
-        $inc:{__v:1},
-        $unset:{forgetPasswordOTP:true}
+        $inc: { __v: 1 },
+        $unset: { forgetPasswordOTP: true }
       })
 
       return res.status(200).json({ message: "Password Updated" });

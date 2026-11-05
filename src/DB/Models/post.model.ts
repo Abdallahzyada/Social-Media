@@ -6,6 +6,7 @@ export interface IPost {
   attachments: string[];
   createdBy: Types.ObjectId;
   likes?: Types.ObjectId[];
+  tags?:Types.ObjectId[];
   freezedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -30,6 +31,7 @@ export const postSchema = new Schema<IPost>(
     ],
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    tags:[{type:Schema.Types.ObjectId, ref:"User"}],
     freezedAt: { type: Date },
   },
   { timestamps: true },

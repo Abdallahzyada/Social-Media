@@ -1,8 +1,16 @@
 import { HydratedDocument, model, Model, Schema, Types } from "mongoose";
 import { GenderEnum, RoleEnum } from "../../Utils/enums/user.enum";
 import { ProviderEnum } from "../../Utils/enums/provider.enum";
+import { generateHash } from "../../Utils/security/hash";
+import { encrypt } from "../../Utils/security/encryption";
+
+
+
 export interface IUser {
   _id: Types.ObjectId;
+  friends?:Types.ObjectId[];
+  blockedUsers?:Types.ObjectId[];
+
   firstName: string;
   lastName: string;
   username?: string;
@@ -17,7 +25,7 @@ export interface IUser {
   password: string;
   resetPasswordOTP?: string;
 
-  phone?: string;
+  phone: string;
   address?: string;
 
   gender: GenderEnum;
@@ -62,6 +70,8 @@ export const userSchema = new Schema<IUser>(
       type: String,
       enum: Object.values(GenderEnum),
     },
+    friends:[{type: Schema.Types.ObjectId, ref:"User"}],
+    blockedUsers:[{type: Schema.Types.ObjectId, ref:"User"}],
   },
   {
     timestamps: true,
@@ -87,6 +97,24 @@ userSchema
   .get(function (this: IUser) {
     return `${this.firstName} ${this.lastName}`;
   });
+
+
+userSchema.pre("validate", function(){
+  this.email = this.email.toLocaleLowerCase().trim();
+})
+
+userSchema.pre("save", async function(this:HUserDocument & {wasNew: boolean}) {
+  this.wasNew = this.isNew;
+  if(this.isModified("password")){
+    this.password = await generateHash(this.password);
+  }
+  if(this.isModified("phone")){
+    this.phone = await encrypt(this.phone);
+  }
+})
+
+
+
 
 export const userModel: Model<IUser> = model<IUser>("User", userSchema);
 export type HUserDocument = HydratedDocument<IUser>

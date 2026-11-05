@@ -20,4 +20,45 @@ router.post(
   validation(validators.createPostSchema),
   postService.createPost,
 );
+
+router.patch(
+  "/:postId/like",
+  validation(validators.postIdParamsSchema),
+  postService.toggleLikePost,
+);
+
+router.patch(
+  "/:postId/update",
+  validation(validators.postIdParamsSchema),
+  postService.updatePost,
+);
+
+router.get(
+  "/:postId",
+  validation(validators.postIdParamsSchema),
+  postService.getSpecificPost,
+);
+
+router.delete(
+  "/:postId",
+  validation(validators.postIdParamsSchema),
+  postService.deletePost,
+);
+
+router.post(
+  "/:postId/comment",
+  validation(validators.createCommentSchema),
+  postService.createComments,
+);
+
+router.patch(
+  "/comment/:commentId",
+  validation(validators.updateCommentSchema),
+  postService.updateComment,
+);
+router.delete(
+  "/comment/:commentId",
+  validation(validators.commentIdParamsSchema),
+  postService.deleteComment,
+);
 export default router;
